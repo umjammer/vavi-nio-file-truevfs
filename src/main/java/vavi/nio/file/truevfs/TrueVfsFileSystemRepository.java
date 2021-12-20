@@ -51,6 +51,7 @@ Debug.println(Level.FINE, "baseUrl: " + baseUrl);
 
         TConfig config = TConfig.current();
         TFile root = new TFile(baseUrl);
+Debug.println(Level.FINE, "root: " + root);
         TrueVfsFileStore fileStore = new TrueVfsFileStore(root, factoryProvider.getAttributesFactory());
         return new TrueVfsFileSystemDriver(fileStore, factoryProvider, config, baseUrl, env);
     }
