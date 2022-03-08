@@ -74,9 +74,9 @@
     </dependency>
 
     <dependency>
-      <groupId>com.github.fge</groupId> <!-- com.github.umjammer -->
+      <groupId>com.github.umjammer</groupId>
       <artifactId>java7-fs-base</artifactId>
-      <version>0.0.12v-SNAPSHOT</version>
+      <version>0.0.12v</version>
     </dependency>
     <dependency>
       <groupId>com.github.umjammer.vavi-net-auth</groupId>
