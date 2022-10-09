@@ -16,17 +16,19 @@
   </issueManagement>
 
   <properties>
-    <vavi-net-fuse.groupId>vavi</vavi-net-fuse.groupId> <!-- com.github.umjammer.vavi-apps-fuse -->
-    <vavi-net-fuse.version>0.1.7-SNAPSHOT</vavi-net-fuse.version>
+    <vavi-net-fuse.groupId>com.github.umjammer.vavi-apps-fuse</vavi-net-fuse.groupId>
+    <vavi-net-fuse.version>0.1.7</vavi-net-fuse.version>
     <vavi-nio-file.groupId>vavi</vavi-nio-file.groupId> <!-- com.github.umjammer -->
     <vavi-nio-file.version>0.0.14-SNAPSHOT</vavi-nio-file.version>
+    <truevfs.version>0.14.0</truevfs.version>
   </properties>
 
   <build>
     <plugins>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.3</version>
+        <version>3.10.1</version>
         <configuration>
           <source>1.8</source>
           <target>1.8</target>
@@ -36,7 +38,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.0.0-M5</version>
+        <version>3.0.0-M7</version>
         <configuration>
           <argLine>
             -Djava.util.logging.config.file=${project.build.testOutputDirectory}/logging.properties
@@ -59,18 +61,38 @@
       <dependency>
         <groupId>org.junit</groupId>
         <artifactId>junit-bom</artifactId>
-        <version>5.8.1</version>
+        <version>5.8.2</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
+<!--
+
+      <dependency>
+        <groupId>com.github.broadinstitute.alfre</groupId>
+        <artifactId>alfre-v0-bom</artifactId>
+        <version>master-2bf0c0c604-1</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+-->
     </dependencies>
   </dependencyManagement>
 
   <dependencies>
     <dependency>
       <groupId>net.java.truevfs</groupId>
-      <artifactId>truevfs-profile-full_2.12</artifactId>
-      <version>0.12.2</version>
+      <artifactId>truevfs-access</artifactId>
+      <version>${truevfs.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>net.java.truevfs</groupId>
+      <artifactId>truevfs-driver-http</artifactId>
+      <version>${truevfs.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>net.java.truevfs</groupId>
+      <artifactId>truevfs-driver-zip</artifactId>
+      <version>${truevfs.version}</version>
     </dependency>
 
     <dependency>
@@ -81,7 +103,7 @@
     <dependency>
       <groupId>com.github.umjammer.vavi-net-auth</groupId>
       <artifactId>vavi-net-auth-common</artifactId>
-      <version>0.1.2</version>
+      <version>0.1.4</version>
     </dependency>
 
     <dependency>
@@ -108,7 +130,7 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-jdk14</artifactId>
-      <version>1.7.2</version>
+      <version>1.7.36</version>
       <scope>test</scope>
     </dependency>
 
@@ -139,5 +161,20 @@
       <type>test-jar</type>
       <scope>test</scope>
     </dependency>
+
+    <dependency>
+      <groupId>com.github.magicDGS</groupId>
+      <artifactId>jsr203-http</artifactId>
+      <version>5e20eec26f</version>
+      <scope>test</scope>
+    </dependency>
+<!--
+    <dependency>
+      <groupId>com.github.broadinstitute.alfre</groupId>
+      <artifactId>alfre-v0-impl-http</artifactId>
+      <version>master-2bf0c0c604-1</version>
+      <scope>test</scope>
+    </dependency>
+-->
   </dependencies>
 </project>
