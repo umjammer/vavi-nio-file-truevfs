@@ -11,6 +11,7 @@ import java.net.URLEncoder;
 import java.nio.file.FileSystem;
 import java.util.Collections;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import vavi.nio.file.truevfs.TrueVfsFileSystemProvider;
@@ -37,14 +38,16 @@ public class Main2 {
      * </ul>
      */
     @Test
+    @Disabled("no writing scheme")
     void test01() throws Exception {
         String username = URLEncoder.encode(System.getenv("TEST_SFTP_ACCOUNT"), "utf-8");
         String passPhrase = System.getenv("TEST_SFTP_PASSPHRASE");
         String host = System.getenv("TEST_SFTP_HOST");
         String keyPath = System.getenv("TEST_SFTP_KEYPATH");
         String path = System.getenv("TEST_SFTP_PATH");
+        String mountPoint = System.getenv("TEST_MOUNT_POINT");
 
-        URI uri = URI.create(String.format("vfs:sftp://%s@%s%s?keyPath=%s&passphrase=%s", username, host, path, keyPath, passPhrase));
+        URI uri = URI.create(String.format("truevfs:file://%s", mountPoint));
 
         FileSystem fs = new TrueVfsFileSystemProvider().newFileSystem(uri, Collections.emptyMap());
 

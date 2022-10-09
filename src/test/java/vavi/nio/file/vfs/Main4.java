@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.condition.DisabledIfEnvironmentVariable;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -33,14 +34,17 @@ import vavi.nio.file.truevfs.TrueVfsFileSystemProvider;
 @DisabledIfEnvironmentVariable(named = "GITHUB_WORKFLOW", matches = ".*")
 public class Main4 {
 
+    static {
+        System.setProperty("vavi.util.logging.VaviFormatter.extraClassMethod",
+                           "co\\.paralleluniverse\\.fuse\\.LoggedFuseFilesystem#log");
+    }
+
     String mountPoint;
     FileSystem fs;
     Map<String, Object> options;
 
     @BeforeEach
     public void before() throws Exception {
-        System.setProperty("vavi.util.logging.VaviFormatter.extraClassMethod", "co\\.paralleluniverse\\.fuse\\.LoggedFuseFilesystem#log");
-
         mountPoint = System.getenv("TEST4_MOUNT_POINT");
         String username = URLEncoder.encode(System.getenv("TEST4_SFTP_ACCOUNT"), "utf-8");
         String passPhrase = URLEncoder.encode(System.getenv("TEST4_SFTP_PASSPHRASE"), "utf-8");
@@ -71,6 +75,7 @@ public class Main4 {
         "vavi.net.fuse.jnrfuse.JnrFuseFuseProvider",
         "vavi.net.fuse.fusejna.FuseJnaFuseProvider",
     })
+    @Disabled("no writing scheme")
     public void test01(String providerClassName) throws Exception {
         System.setProperty("vavi.net.fuse.FuseProvider.class", providerClassName);
 
@@ -85,10 +90,10 @@ public class Main4 {
      * @param args 0: alias, args 1: mount point (should be replaced by alias)
      */
     public static void main(final String... args) throws IOException {
-        String alias = args[0];
-        String mountPoint = String.format(args[1], alias);
+        String url = args[0];
+        String mountPoint = String.format(args[1]);
 
-        final URI uri = URI.create("truevfs:sftp:///Users/nsano/tmp/vfs?alias=" + alias);
+        final URI uri = URI.create(String.format("truevfs:%s", url));
 
         final Map<String, Object> env = new HashMap<>();
         env.put("ignoreAppleDouble", true);
@@ -97,9 +102,10 @@ public class Main4 {
 
 //        System.setProperty("vavi.net.fuse.FuseProvider.class", "vavi.net.fuse.javafs.JavaFSFuseProvider");
 //        System.setProperty("vavi.net.fuse.FuseProvider.class", "vavi.net.fuse.jnrfuse.JnrFuseFuseProvider");
+        System.setProperty("vavi.net.fuse.FuseProvider.class", "vavi.net.fuse.fusejna.FuseJnaFuseProvider");
 
         Map<String, Object> options = new HashMap<>();
-        options.put("fsname", "vfs_fs" + "@" + System.currentTimeMillis());
+        options.put("fsname", "truevfs_fs" + "@" + System.currentTimeMillis());
         options.put(vavi.net.fuse.javafs.JavaFSFuse.ENV_DEBUG, false);
         options.put(vavi.net.fuse.javafs.JavaFSFuse.ENV_READ_ONLY, false);
         // vfs io uses ThreadLocal to keep internal info when read/write, so this option must be set

@@ -52,7 +52,7 @@ public class Main {
      * </ul>
      */
     @Test
-    @Disabled
+    @Disabled("no writing scheme")
     void test01() throws Exception {
         String username = URLEncoder.encode(System.getenv("TEST_SFTP_ACCOUNT"), "utf-8");
         String passPhrase = URLEncoder.encode(System.getenv("TEST_SFTP_PASSPHRASE"), "utf-8");
@@ -60,7 +60,7 @@ public class Main {
         String keyPath = URLEncoder.encode(System.getenv("TEST_SFTP_KEYPATH"), "utf-8");
         String path = System.getenv("TEST_SFTP_PATH");
 
-        URI uri = URI.create(String.format("vfs:sftp://%s@%s%s?keyPath=%s&passphrase=%s", username, host, path, keyPath, passPhrase));
+        URI uri = URI.create(String.format("truevfs:sftp://%s@%s%s?keyPath=%s&passphrase=%s", username, host, path, keyPath, passPhrase));
 
         testAll(new TrueVfsFileSystemProvider().newFileSystem(uri, Collections.emptyMap()));
     }
